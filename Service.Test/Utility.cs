@@ -6,8 +6,7 @@ namespace Service.Test
     {
         private static string ExpectedOutPut(string checkerboard, string candidate)
         {
-            return $@"{checkerboard}
-{candidate}";
+            return $"{checkerboard}\r\n{candidate}";
         }
 
         public static void CheckGameOutput(string emptyCheckerboard, string initCandidate, string gameOutput)
