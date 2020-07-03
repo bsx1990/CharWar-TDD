@@ -1,4 +1,6 @@
-﻿namespace Service
+﻿using Service.Utility.Exceptions;
+
+namespace Service
 {
     public class Game
     {
@@ -10,20 +12,34 @@
         public Game()
         {
             Checkerboard = new Piece[GameConfig.RowsOfCheckerboard, GameConfig.ColumnsOfCheckerboard];
+            InitCheckerboard();
             CurrentCandidate = new Piece(1);
             NextCandidate = new Piece(1);
         }
 
-        public override string ToString()
+        private void InitCheckerboard()
         {
-            return this.Print();
+            for (var rowIndex = 0; rowIndex < Checkerboard.GetLength(0); rowIndex++)
+            {
+                for (var columnIndex = 0; columnIndex < Checkerboard.GetLength(1); columnIndex++)
+                {
+                    Checkerboard[rowIndex, columnIndex] = new Piece();
+                }
+            }
         }
 
         public void Place(int row, int column)
         {
-            Checkerboard[row, column] = CurrentCandidate;
+            UpdateCheckerboard(row, column);
             CurrentCandidate = NextCandidate;
             NextCandidate = new Piece(1);
+        }
+
+        private void UpdateCheckerboard(int row, int column)
+        {
+            if (!Checkerboard[row, column].IsEmpty()) { throw new PlaceException($"row:{row} column:{column} not empty"); }
+            
+            Checkerboard[row, column] = CurrentCandidate;
         }
     }
 }
