@@ -11,9 +11,6 @@
             Value = value;
         }
 
-        public bool IsEmpty()
-        {
-            return !Value.HasValue;
-        }
+        public bool IsEmpty() => !Value.HasValue;
     }
 }

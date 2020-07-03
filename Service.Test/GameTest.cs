@@ -1,4 +1,5 @@
 using NUnit.Framework;
+using Service.Utility;
 using Service.Utility.Exceptions;
 
 namespace Service.Test

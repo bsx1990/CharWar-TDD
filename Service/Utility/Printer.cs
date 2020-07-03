@@ -1,4 +1,4 @@
-﻿namespace Service
+﻿namespace Service.Utility
 {
     public static class Printer
     {

@@ -1,4 +1,5 @@
-﻿using Service.Utility.Exceptions;
+﻿using Service.Utility;
+using Service.Utility.Exceptions;
 
 namespace Service
 {
