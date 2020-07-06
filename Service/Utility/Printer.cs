@@ -2,9 +2,9 @@
 {
     public static class Printer
     {
-        public static string Print(this Game game)
+        public static string Print(this IGame game)
         {
-            return $"{PrintCheckerboard(game.Checkerboard)}\r\n{PrintCandidate(game.CurrentCandidate, game.NextCandidate)}";
+            return $"{game.Checkerboard.Print()}\r\n{PrintCandidate(game.CurrentCandidate, game.NextCandidate)}";
         }
 
         private static string PrintCandidate(Piece currentCandidate, Piece nextCandidate)
@@ -12,7 +12,7 @@
             return $"Next:{nextCandidate.Print()}; Current:{currentCandidate.Print()}";
         }
 
-        private static string PrintCheckerboard(Piece[,] checkerboard)
+        public static string Print(this Piece[,] checkerboard)
         {
             var result = string.Empty;
             for (var rowIndex = 0; rowIndex < checkerboard.GetLength(0); rowIndex++)

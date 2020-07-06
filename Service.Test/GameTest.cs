@@ -12,6 +12,7 @@ namespace Service.Test
         }
 
         [Test]
+        [Category("GameTest")]
         public void Should_ShowInitUI_When_StartANewGame()
         {
             var game = new Game();
@@ -22,17 +23,19 @@ namespace Service.Test
         }
 
         [Test]
+        [Category("GameTest")]
         public void Should_BeUpdated_When_PlacePieceOnAnEmptyCheckerboard()
         {
             var game = new Game();
             game.Place(0, 0);
+            
             const string checkerboard = "[ 1] [  ] [  ] [  ]\r\n[  ] [  ] [  ] [  ]\r\n[  ] [  ] [  ] [  ]\r\n[  ] [  ] [  ] [  ]";
             const string initCandidate = "Next: 1; Current: 1";
-
             Utility.CheckGameOutput(checkerboard, initCandidate, game.Print());
         }
         
         [Test]
+        [Category("GameTest")]
         public void Should_BeInvalid_When_PlacePieceOnAnotherPiece()
         {
             var game = new Game();
@@ -44,5 +47,36 @@ namespace Service.Test
             const string initCandidate = "Next: 1; Current: 1";
             Utility.CheckGameOutput(checkerboard, initCandidate, game.Print());
         }
+
+        [Test]
+        [Category("GameTest")]
+        public void Should_BeCombinedTo2_When_Place1()
+        {
+            var game = new Game();
+            game.Place(0, 0);
+            game.Place(1, 1);
+            
+            const string checkerboard = "[  ] [  ] [  ] [  ]\r\n[  ] [ 2] [  ] [  ]\r\n[  ] [  ] [  ] [  ]\r\n[  ] [  ] [  ] [  ]";
+            const string initCandidate = "Next: 1; Current: 1";
+            Utility.CheckGameOutput(checkerboard, initCandidate, game.Print());
+        }
+               
+        [Test]
+        [Category("CombineTest")]
+        public void Checkerboard_Should_BeCombinedTo2_When_Place1()
+        {
+            var checkerboard = new[,]
+            {
+                {new Piece(1), new Piece(), new Piece(), new Piece()},
+                {new Piece(), new Piece(1), new Piece(), new Piece()},
+                {new Piece(), new Piece(), new Piece(), new Piece()},
+                {new Piece(), new Piece(), new Piece(), new Piece()}
+            };
+            var game = new Game();
+            game.Combine(checkerboard, 1, 1);
+            
+            const string expectCheckerboard = "[  ] [  ] [  ] [  ]\r\n[  ] [ 2] [  ] [  ]\r\n[  ] [  ] [  ] [  ]\r\n[  ] [  ] [  ] [  ]";
+            Assert.AreEqual(expectCheckerboard, checkerboard.Print());
+        } 
     }
 }

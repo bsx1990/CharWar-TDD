@@ -1,9 +1,20 @@
-﻿using Service.Utility;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Service.Utility;
 using Service.Utility.Exceptions;
 
 namespace Service
 {
-    public class Game
+    public interface IGame
+    {
+        Piece CurrentCandidate { get; set; }
+        Piece NextCandidate { get; set; }
+        Piece[,] Checkerboard { get; }
+        void Place(int row, int column);
+    }
+
+    public class Game : IGame
     {
         public Piece CurrentCandidate { get; set; }
         public Piece NextCandidate { get; set; }
@@ -34,6 +45,39 @@ namespace Service
             UpdateCheckerboard(row, column);
             CurrentCandidate = NextCandidate;
             NextCandidate = new Piece(1);
+            Combine(Checkerboard, row, column);
+        }
+
+        public void Combine(Piece[,] checkerboard, int row, int column)
+        {
+            var aroundPieces = GetAroundPieces(checkerboard, row, column);
+            var centerPiece = checkerboard[row, column];
+            var equalsToCenterPiece = new Func<Piece, bool>(piece => piece.Value == centerPiece.Value);
+            while (aroundPieces.Any(equalsToCenterPiece))
+            {
+                foreach (var piece in aroundPieces.Where(equalsToCenterPiece))
+                {
+                    piece.Reset();
+                }
+
+                centerPiece.Upgrade();
+            }
+        }
+
+        private static List<Piece> GetAroundPieces(Piece[,] checkerboard, int row, int column)
+        {
+            (int, int) leftTopOffset = (-1, -1), topOffset = (0, -1), rightTopOffset = (1, -1),
+                leftOffset = (-1, 0), rightOffset = (1, 0),
+                leftBottomOffset = (-1, 1), bottomOffset = (0, 1), rightBottomOffset = (1, 1);
+            var aroundDirections = new[] { leftTopOffset, topOffset, rightTopOffset, leftOffset, rightOffset, leftBottomOffset, bottomOffset, rightBottomOffset };
+            var aroundPositions = aroundDirections
+                .Select(direction => (row + direction.Item1, column + direction.Item2))
+                .Where(position => position.Item1 >= 0 && position.Item1 < GameConfig.RowsOfCheckerboard 
+                                                       && position.Item2 >= 0 && position.Item2 < GameConfig.ColumnsOfCheckerboard);
+            return aroundPositions
+                .Select(position => checkerboard[position.Item1, position.Item2])
+                .Where(piece => !piece.IsEmpty())
+                .ToList();
         }
 
         private void UpdateCheckerboard(int row, int column)
