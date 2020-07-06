@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using NUnit.Framework;
 
-namespace Service.Test
+namespace Service.Test.TestData
 {
     public class MyTestCaseData
     {
