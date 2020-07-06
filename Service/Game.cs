@@ -20,9 +20,11 @@ namespace Service
         public Piece NextCandidate { get; set; }
 
         public Piece[,] Checkerboard { get; }
+        public int Score { get; private set; }
 
         public Game()
         {
+            Score = 0;
             Checkerboard = new Piece[GameConfig.RowsOfCheckerboard, GameConfig.ColumnsOfCheckerboard];
             InitCheckerboard();
             CurrentCandidate = new Piece(1);
@@ -45,23 +47,28 @@ namespace Service
             UpdateCheckerboard(row, column);
             CurrentCandidate = NextCandidate;
             NextCandidate = CandidateBuilder.Build(Checkerboard.MaxValue());
-            Combine(Checkerboard, row, column);
+            var combinedScore = Combine(Checkerboard, row, column);
+            Score += combinedScore;
         }
 
-        public void Combine(Piece[,] checkerboard, int row, int column)
+        public static int Combine(Piece[,] checkerboard, int row, int column)
         {
             var aroundPieces = GetAroundPieces(checkerboard, row, column);
             var centerPiece = checkerboard[row, column];
+            var combinedScore = 0;
             var equalsToCenterPiece = new Func<Piece, bool>(piece => piece.Value == centerPiece.Value);
             while (aroundPieces.Any(equalsToCenterPiece))
             {
                 foreach (var piece in aroundPieces.Where(equalsToCenterPiece))
                 {
+                    combinedScore += piece.Value!.Value;
                     piece.Reset();
                 }
 
                 centerPiece.Upgrade();
             }
+
+            return combinedScore;
         }
 
         private static List<Piece> GetAroundPieces(Piece[,] checkerboard, int row, int column)

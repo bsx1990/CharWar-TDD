@@ -17,10 +17,11 @@ namespace Service.Test
                 {new Piece(), new Piece(), new Piece(), new Piece()}
             };
             var game = new Game();
-            game.Combine(checkerboard, 1, 1);
+            var score = Game.Combine(checkerboard, 1, 1);
             
             const string expectCheckerboard = "[  ] [  ] [  ] [  ]\r\n[  ] [ 2] [  ] [  ]\r\n[  ] [  ] [  ] [  ]\r\n[  ] [  ] [  ] [  ]";
             Assert.AreEqual(expectCheckerboard, checkerboard.Print());
+            Assert.AreEqual(1, score);
         }
 
         [Test]
@@ -34,10 +35,11 @@ namespace Service.Test
                 {new Piece(), new Piece(), new Piece(), new Piece()}
             };
             var game = new Game();
-            game.Combine(checkerboard, 0, 0);
+            var score = Game.Combine(checkerboard, 0, 0);
             
             const string expectCheckerboard = "[ 2] [  ] [  ] [  ]\r\n[  ] [  ] [  ] [  ]\r\n[  ] [  ] [  ] [  ]\r\n[  ] [  ] [  ] [  ]";
             Assert.AreEqual(expectCheckerboard, checkerboard.Print());
+            Assert.AreEqual(1, score);
         }
 
         [Test]
@@ -51,10 +53,11 @@ namespace Service.Test
                 {new Piece(), new Piece(), new Piece(), new Piece()}
             };
             var game = new Game();
-            game.Combine(checkerboard, 1, 1);
+            var score = Game.Combine(checkerboard, 1, 1);
             
             const string expectCheckerboard = "[  ] [  ] [  ] [  ]\r\n[  ] [ 4] [  ] [  ]\r\n[  ] [  ] [ 5] [  ]\r\n[  ] [  ] [  ] [  ]";
             Assert.AreEqual(expectCheckerboard, checkerboard.Print());
+            Assert.AreEqual(7, score);
         }
     }
 }

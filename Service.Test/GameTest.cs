@@ -47,7 +47,7 @@ namespace Service.Test
         }
 
         [Test]
-        public void Should_BeCombinedTo2_When_Place1()
+        public void Should_BeCombinedTo2AndScore1_When_Place1()
         {
             var game = new Game();
             game.Place(0, 0);
@@ -56,6 +56,7 @@ namespace Service.Test
             const string checkerboard = "[  ] [  ] [  ] [  ]\r\n[  ] [ 2] [  ] [  ]\r\n[  ] [  ] [  ] [  ]\r\n[  ] [  ] [  ] [  ]";
             const string initCandidate = "Next: 1; Current: 1";
             Utility.CheckGameOutput(checkerboard, initCandidate, game.Print());
+            Assert.AreEqual(1, game.Score);
         }
 
         [Test]
