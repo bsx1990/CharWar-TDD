@@ -44,7 +44,7 @@ namespace Service
         {
             UpdateCheckerboard(row, column);
             CurrentCandidate = NextCandidate;
-            NextCandidate = new Piece(1);
+            NextCandidate = CandidateBuilder.Build(Checkerboard.MaxValue());
             Combine(Checkerboard, row, column);
         }
 

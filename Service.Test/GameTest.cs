@@ -60,6 +60,45 @@ namespace Service.Test
             const string initCandidate = "Next: 1; Current: 1";
             Utility.CheckGameOutput(checkerboard, initCandidate, game.Print());
         }
+
+        [Test]
+        [Retry(20)]
+        [Category("GameTest")]
+        public void NextCandidate_Should_HaveChancesToBe2_When_GenerateNewCandidateWithMaxValueOfCheckerboardIs2()
+        {
+            var game = new Game();
+            game.Place(0,0);
+            game.Place(1,0);
+            game.Place(0,0);
+            
+            Assert.AreEqual(2, game.NextCandidate.Value);
+        }
+
+        [Test]
+        [Retry(20)]
+        [Category("GameTest")]
+        public void NextCandidate_Should_HaveChancesToBe1_When_GenerateNewCandidateWithMaxValueOfCheckerboardIs2()
+        {
+            var game = new Game();
+            game.Place(0,0);
+            game.Place(1,0);
+            game.Place(0,0);
+            
+            Assert.AreEqual(1, game.NextCandidate.Value);
+        }
+
+        [Test]
+        [Repeat(100)]
+        [Category("GameTest")]
+        public void NextCandidate_Should_NotBe3_When_GenerateNewCandidateWithMaxValueOfCheckerboardIs2()
+        {
+            var game = new Game();
+            game.Place(0,0);
+            game.Place(1,0);
+            game.Place(0,0);
+            
+            Assert.AreNotEqual(3, game.NextCandidate.Value);
+        }
                
         [Test]
         [Category("CombineTest")]
@@ -113,6 +152,28 @@ namespace Service.Test
             
             const string expectCheckerboard = "[  ] [  ] [  ] [  ]\r\n[  ] [ 4] [  ] [  ]\r\n[  ] [  ] [ 5] [  ]\r\n[  ] [  ] [  ] [  ]";
             Assert.AreEqual(expectCheckerboard, checkerboard.Print());
+        }
+
+        [Test]
+        [Repeat(10000)]
+        [Category("CandidateTest")]
+        public void CandidateValue_Should_NotLargerThanUpperLimit([Range(1,20)] int upperLimit)
+        {
+            var candidate = CandidateBuilder.Build(upperLimit);
+            
+            var maxValueOfCandidate = 9;
+            Assert.LessOrEqual(candidate.Value, maxValueOfCandidate);
+        }
+
+        [Test]
+        [TestCaseSource(typeof(MyTestCaseData), nameof(MyTestCaseData.CandidateBuildTestCases))]
+        [Retry(100)]
+        [Category("CandidateTest")]
+        public void CandidateValue_Should_EqualToSpecifiedValue(int specifiedValue, int upperLimit)
+        {
+            var candidate = CandidateBuilder.Build(upperLimit);
+            
+            Assert.AreEqual(specifiedValue, candidate.Value);
         }
     }
 }
