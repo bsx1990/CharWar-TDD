@@ -4,7 +4,7 @@
     {
         public static string Print(this IGame game)
         {
-            return $"{game.Checkerboard.Print()}\r\n{PrintCandidate(game.CurrentCandidate, game.NextCandidate)}";
+            return $"Score:{game.Score}\r\n{game.Checkerboard.Print()}\r\n{PrintCandidate(game.CurrentCandidate, game.NextCandidate)}";
         }
 
         private static string PrintCandidate(Piece currentCandidate, Piece nextCandidate)

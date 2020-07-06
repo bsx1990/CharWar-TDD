@@ -16,10 +16,11 @@ namespace Service.Test
         public void Should_ShowInitUI_When_StartANewGame()
         {
             var game = new Game();
+            const int score = 0;
             const string emptyCheckerboard = "[  ] [  ] [  ] [  ]\r\n[  ] [  ] [  ] [  ]\r\n[  ] [  ] [  ] [  ]\r\n[  ] [  ] [  ] [  ]";
             const string initCandidate = "Next: 1; Current: 1";
 
-            Utility.CheckGameOutput(emptyCheckerboard, initCandidate, game.Print());
+            Utility.CheckGameOutput(emptyCheckerboard, initCandidate, score, game.Print());
         }
 
         [Test]
@@ -27,10 +28,11 @@ namespace Service.Test
         {
             var game = new Game();
             game.Place(0, 0);
-            
+
+            const int score = 0;
             const string checkerboard = "[ 1] [  ] [  ] [  ]\r\n[  ] [  ] [  ] [  ]\r\n[  ] [  ] [  ] [  ]\r\n[  ] [  ] [  ] [  ]";
             const string initCandidate = "Next: 1; Current: 1";
-            Utility.CheckGameOutput(checkerboard, initCandidate, game.Print());
+            Utility.CheckGameOutput(checkerboard, initCandidate, score, game.Print());
         }
         
         [Test]
@@ -40,10 +42,11 @@ namespace Service.Test
             game.Place(0, 0);
             var exception = Assert.Throws(typeof(PlaceException), ()=>game.Place(0, 0));
             Assert.That(exception.Message, Is.EqualTo("row:0 column:0 not empty"));
-            
+
+            const int score = 0;
             const string checkerboard = "[ 1] [  ] [  ] [  ]\r\n[  ] [  ] [  ] [  ]\r\n[  ] [  ] [  ] [  ]\r\n[  ] [  ] [  ] [  ]";
             const string initCandidate = "Next: 1; Current: 1";
-            Utility.CheckGameOutput(checkerboard, initCandidate, game.Print());
+            Utility.CheckGameOutput(checkerboard, initCandidate, score, game.Print());
         }
 
         [Test]
@@ -52,11 +55,11 @@ namespace Service.Test
             var game = new Game();
             game.Place(0, 0);
             game.Place(1, 1);
-            
+
+            const int score = 1;
             const string checkerboard = "[  ] [  ] [  ] [  ]\r\n[  ] [ 2] [  ] [  ]\r\n[  ] [  ] [  ] [  ]\r\n[  ] [  ] [  ] [  ]";
             const string initCandidate = "Next: 1; Current: 1";
-            Utility.CheckGameOutput(checkerboard, initCandidate, game.Print());
-            Assert.AreEqual(1, game.Score);
+            Utility.CheckGameOutput(checkerboard, initCandidate, score, game.Print());
         }
 
         [Test]

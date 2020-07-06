@@ -4,14 +4,9 @@ namespace Service.Test
 {
     internal static class Utility
     {
-        private static string ExpectedOutPut(string checkerboard, string candidate)
+        public static void CheckGameOutput(string emptyCheckerboard, string initCandidate, int score, string gameOutput)
         {
-            return $"{checkerboard}\r\n{candidate}";
-        }
-
-        public static void CheckGameOutput(string emptyCheckerboard, string initCandidate, string gameOutput)
-        {
-            Assert.AreEqual(ExpectedOutPut(emptyCheckerboard, initCandidate), gameOutput);
+            Assert.AreEqual($"Score:{score}\r\n{emptyCheckerboard}\r\n{initCandidate}", gameOutput);
         }
     }
 }

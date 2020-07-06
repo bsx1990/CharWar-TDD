@@ -11,6 +11,7 @@ namespace Service
         Piece CurrentCandidate { get; set; }
         Piece NextCandidate { get; set; }
         Piece[,] Checkerboard { get; }
+        int Score { get; }
         void Place(int row, int column);
     }
 
