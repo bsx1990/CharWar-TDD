@@ -1,6 +1,8 @@
 using NUnit.Framework;
 using Service.Utility;
 using Service.Utility.Exceptions;
+using Telerik.JustMock;
+using Telerik.JustMock.Helpers;
 
 namespace Service.Test
 {
@@ -96,6 +98,26 @@ namespace Service.Test
             game.Place(0,0);
             
             Assert.AreNotEqual(3, game.NextCandidate.Value);
+        }
+
+        [Test]
+        public void Game_Should_BeOver_When_NoEmptyPositionAfterPlaceAPiece()
+        {
+            var checkerboardProperty = new [,]
+            {
+                {new Piece(1), new Piece(2), new Piece(3), new Piece(4)},
+                {new Piece(5), new Piece(6), new Piece(7), new Piece(8)},
+                {new Piece(9), new Piece(10), new Piece(11), new Piece(12)},
+                {new Piece(13), new Piece(14), new Piece(15), new Piece()}
+            };
+
+            var game = Mock.Create<Game>();
+            Mock.Arrange(() => game.Checkerboard).Returns(checkerboardProperty);
+            Mock.Arrange(() => game.CurrentCandidate).Returns(new Piece(1));
+            Mock.Arrange(() => game.NextCandidate).Returns(new Piece(1));
+            game.Place(3,3);
+            
+            Assert.True(game.IsGameOver());
         }
     }
 }

@@ -94,5 +94,10 @@ namespace Service
             
             Checkerboard[row, column] = CurrentCandidate;
         }
+
+        public bool IsGameOver()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
